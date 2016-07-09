@@ -22,7 +22,7 @@ var AgentHarvester = function(room){
     this.Name = 'Harvester';
     
     var requestWorker = function(that, modules){
-        var name = that.Room.Spawner.RequestWorker(modules, this.Name);
+        var name = that.Room.Spawner.RequestWorker(modules, that.Name);
         that.Memory.Harvesters.push({Name: name, Created: false});
     }
 
