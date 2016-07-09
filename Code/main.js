@@ -9,6 +9,9 @@ module.exports.loop = function () {
 
     var myRoom = new agent(_.values(Game.rooms)[0]);
     myRoom.Run();
+
+
+    
     var tower = Game.getObjectById('e549ad873a25434421a42511');
     if(tower) {
         var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {

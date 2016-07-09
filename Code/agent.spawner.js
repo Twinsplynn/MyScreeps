@@ -12,7 +12,7 @@ var AgentSpawner = function(spawn, currentRoom){
 
 	this.Workers = {};
 
-	// creat all Workers
+	// create all Workers
 	for(var index in Memory.Workers){
 		var mem = Memory.Workers[index];
 		var creep = Game.creeps[mem.Name];
@@ -38,18 +38,28 @@ var AgentSpawner = function(spawn, currentRoom){
 	this.RequestSpawn = function(modules){
 
 		// first check if we have one that fits
-
+		for(var i in this.Workers){
+			if (!this.Workers[i].Essential && this.Workers[i].IsModuleSame(modules))
+			{
+				return this.Workers[i].Name;
+			}
+		}
+		return QueueSpawn(false, modules, undefined, undefined);
 	}
 
     this.QueueSpawn = function(priority, modules, name, memory){
 	
+		if (name == undefined)
+		{
+			name = Math.random().toString(36).substr(2, 5);
+		}
 		if (priority === true){
 			Memory.AgentSpawn.Queue.unshift({Modules: modules, Name: name, Memory: memory});			
 		}
 		else{
 			Memory.AgentSpawn.Queue.push({Modules: modules, Name: name, Memory: memory});			
 		}
-		
+		return name;
 	};
 	
 
