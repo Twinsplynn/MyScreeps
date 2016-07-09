@@ -1,3 +1,4 @@
+var Worker = require('agent.worker');
 
 var AgentSpawner = function(spawn, currentRoom){
 
@@ -5,11 +6,42 @@ var AgentSpawner = function(spawn, currentRoom){
 	if (Memory.AgentSpawn === undefined) {
 		Memory.AgentSpawn = {Queue: []};
 	}	
+	if (Memory.Workers == undefined){
+		Memory.Workers = [];
+	}
+
+	this.Workers = {};
+
+	// creat all Workers
+	for(var index in Memory.Workers){
+		var mem = Memory.Workers[index];
+		var creep = Game.creeps[mem.Name];
+		if (creep == undefined)
+		{
+			// Has died. Let's check if was Keep
+			if (mem.Keep && mem.Spawning == false)
+			{
+				this.QueueSpawn(false, mem.Modules, mem.Name, undefined);
+				mem.Spawning = true;
+			}
+		}
+		else
+		{
+			var worker = new Worker(creep);
+			this.Worker[worker.Name] = worker;
+		}
+	}
 
     this.Spawn = spawn;
     this.Room = currentRoom;
+
+	this.RequestSpawn = function(modules){
+
+		// first check if we have one that fits
+
+	}
+
     this.QueueSpawn = function(priority, modules, name, memory){
-	
 	
 		if (priority === true){
 			Memory.AgentSpawn.Queue.unshift({Modules: modules, Name: name, Memory: memory});			
@@ -27,6 +59,7 @@ var AgentSpawner = function(spawn, currentRoom){
 			
 			if (this.Spawn.canCreateCreep(data.Modules, data.Name) == OK){
 			    this.Spawn.createCreep(data.Modules, data.Name, data.Memory)
+
 			}
 			else
 			{
