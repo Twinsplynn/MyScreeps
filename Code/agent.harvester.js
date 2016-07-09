@@ -21,7 +21,7 @@ var AgentHarvester = function(room){
         workers.forEach(function(worker){
             roles.FindEnergy(worker);
             roles.TransferEnergy(worker);
-        }, this)
+        }, this);
     }
 
     this.Name = 'Harvester';
@@ -37,7 +37,7 @@ var AgentHarvester = function(room){
         if (work != undefined)
         {
             workers[name] = work;
-            if (work.Job == undefined || work.Job.Role == undefined || work.Job.Role != 'harvester')
+            if (work.Job == undefined || work.Job.Role == undefined || work.Job.Role != 'harvester')
             {
                 work.Job = {Role: 'harvester', Mining: true};
             }
