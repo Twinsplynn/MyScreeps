@@ -9,7 +9,7 @@ var Worker = function(creep){
     }
 
     this.Memory = Memory.Workers[creep.name];
-
+    
 
     this.Creep = creep;
     this.Modules = {Work: findModuleCount.bind('WORK', this.Memory.Modules), Carry: findModuleCount.bind('CARRY', this.Memory.Modules), 
@@ -18,11 +18,7 @@ var Worker = function(creep){
          Claim: findModuleCount.bind('CLAIM', this.Memory.Modules), Tough: findModuleCount.bind('TOUGH', this.Memory.Modules)};
     this.Name = creep.name;
     
-    // initialize memory
-    if (Memory.Workers[creep.name] == undefined)
-    {
-        Memory.Workers[creep.name] = {Owner: undefined, Essential: true, Keep: true, Name: undefined, Module: undefined, Spawning: true};
-    }
+    
     
     this.__defineGetter__("Essential", function(){return this.Memory.Essential;});
     this.__defineSetter__("Essential", function(val){ this.Memory.Essential = val;});

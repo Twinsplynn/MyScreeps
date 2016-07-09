@@ -70,7 +70,7 @@ var AgentSpawner = function(spawn, currentRoom){
 			
 			if (this.Spawn.canCreateCreep(data.Modules, data.Name) == OK){
 			    this.Spawn.createCreep(data.Modules, data.Name, undefined)
-				Memory.Workers[data.Name] = {Owner: data.Owner};
+				Memory.Workers[data.Name] = {Owner: data.Owner, Modules: data.Modules, Spawning: true, Keep: true,  Essential: true};
 			}
 			else
 			{

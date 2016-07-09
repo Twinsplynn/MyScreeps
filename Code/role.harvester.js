@@ -31,7 +31,11 @@ var roleHarvester = {
             
             roleUpgrader.run(creep);
         }
-	}
+	},
+
+    FindEnergy: function(worker){
+        
+    }
 };
 
 module.exports = roleHarvester;
