@@ -18,7 +18,14 @@ var AgentHarvester = function(room){
     this.Run = function(){
         
     }
+
+    this.Name = 'Harvester';
     
+    var requestWorker = function(modules){
+        var name = that.Room.Spawner.RequestWorker(modules, this.Name);
+        that.Memory.Harvesters.push({Name: name, Created: false});
+    }
+
     /* Logics per level */
     var LevelOneLogic = function(that){
         // We are at level one, priority is to always have energy. 
@@ -26,10 +33,8 @@ var AgentHarvester = function(room){
         // We start with a simple harvester
         if (that.Memory.Harvesters.length < 2)
         {
-            var name = Math.random().toString(36).substr(2, 5);
             // request creep
-            that.Room.Spawner.QueueSpawn(true, [WORK, CARRY, MOVE], name, {role: 'harvester'});
-            that.Memory.Harvesters.push({Name: name, Created: false});
+            requestWorker([WORK, CARRY, MOVE]);
         }
     }
     
@@ -37,38 +42,10 @@ var AgentHarvester = function(room){
         // We are at level two, priority is to always have energy. 
         
         // Lets get more
-        for(var i = that.Memory.Harvesters.length; i < 4; i++)
+        for(var i = that.Memory.Harvesters.length; i < 3; i++)
         {
-            var name = Math.random().toString(36).substr(2, 5);
             // request creep
-            that.Room.Spawner.QueueSpawn(true, [WORK, CARRY, MOVE], name, {role: 'harvester'});
-            that.Memory.Harvesters.push({Name: name, Created: false});
-        }
-    }
-    
-    
-    /* Make sure my harvesters are still alive */
-    for(var creep in this.Memory.Harvesters){
-        
-        if (Game.creeps[this.Memory.Harvesters[creep].Name] === undefined)
-        {
-            if (!this.Memory.Harvesters[creep].Created)
-            {
-                console.log(this.Memory.Harvesters[creep].Name + ' not created yet');
-            }
-            else
-            {
-                console.log(this.Memory.Harvesters[creep].Name + ' is dead');
-                this.Memory.Harvesters.splice(creep, 1);
-            }            
-        }
-        else
-        {
-            if (!this.Memory.Harvesters[creep].Created)
-            {
-                this.Memory.Harvesters[creep].Created = true;
-            }
-            
+            requestWorker([WORK, CARRY, MOVE]);
         }
     }
     
