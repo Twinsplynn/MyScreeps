@@ -21,7 +21,7 @@ var AgentHarvester = function(room){
 
     this.Name = 'Harvester';
     
-    var requestWorker = function(modules){
+    var requestWorker = function(that, modules){
         var name = that.Room.Spawner.RequestWorker(modules, this.Name);
         that.Memory.Harvesters.push({Name: name, Created: false});
     }
@@ -34,7 +34,7 @@ var AgentHarvester = function(room){
         if (that.Memory.Harvesters.length < 2)
         {
             // request creep
-            requestWorker([WORK, CARRY, MOVE]);
+            requestWorker(that, [WORK, CARRY, MOVE]);
         }
     }
     
@@ -45,7 +45,7 @@ var AgentHarvester = function(room){
         for(var i = that.Memory.Harvesters.length; i < 3; i++)
         {
             // request creep
-            requestWorker([WORK, CARRY, MOVE]);
+            requestWorker(that, [WORK, CARRY, MOVE]);
         }
     }
     
