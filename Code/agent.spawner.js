@@ -7,7 +7,7 @@ var AgentSpawner = function(spawn, currentRoom){
 		Memory.AgentSpawn = {Queue: []};
 	}	
 	if (Memory.Workers == undefined){
-		Memory.Workers = [];
+		Memory.Workers = {};
 	}
 
 	this.Workers = {};
@@ -15,7 +15,7 @@ var AgentSpawner = function(spawn, currentRoom){
 	// create all Workers
 	for(var name in Memory.Workers){
 		var creep = Game.creeps[name];
-		var mem = Memory.creeps[name];
+		var mem = Memory.Workers[name];
 
 		if (creep == undefined)
 		{
@@ -29,7 +29,7 @@ var AgentSpawner = function(spawn, currentRoom){
 		else
 		{
 			var worker = new Worker(creep);
-			this.Worker[worker.Name] = worker;
+			this.Workers[worker.Name] = worker;
 		}
 	}
 
@@ -70,8 +70,7 @@ var AgentSpawner = function(spawn, currentRoom){
 			
 			if (this.Spawn.canCreateCreep(data.Modules, data.Name) == OK){
 			    this.Spawn.createCreep(data.Modules, data.Name, undefined)
-				Memory.creeps[data.Name] = {Owner: data.Owner};
-				Memory.Workers.push(data.Name);
+				Memory.Workers[data.Name] = {Owner: data.Owner};
 			}
 			else
 			{

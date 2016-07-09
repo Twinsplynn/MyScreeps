@@ -20,7 +20,7 @@ var Worker = function(creep){
     {
         Memory.Workers[creep.name] = {Owner: undefined, Essential: true, Keep: true, Name: undefined, Module: undefined, Spawning: true};
     }
-    this.Memory = creep.memory;
+    this.Memory = Memory.Workers[creep.name];
     
     this.__defineGetter__("Essential", function(){return this.Memory.Essential;});
     this.__defineSetter__("Essential", function(val){ this.Memory.Essential = val;});
