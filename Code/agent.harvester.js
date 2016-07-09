@@ -18,7 +18,7 @@ var AgentHarvester = function(room){
     
     /* Execution Logic */
     this.Run = function(){
-        workers.forEach(function(worker){
+        _.values(workers).forEach(function(worker){
             roles.FindEnergy(worker);
             roles.TransferEnergy(worker);
         }, this);
@@ -28,7 +28,7 @@ var AgentHarvester = function(room){
     
     var requestWorker = function(that, modules){
         var name = that.Room.Spawner.RequestWorker(modules, that.Name);
-        that.Memory.Harvesters.push({Name: name});
+        that.Memory.Harvesters.push(name);
     }
 
     var workers = {};

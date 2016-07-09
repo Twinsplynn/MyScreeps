@@ -99,7 +99,6 @@ var AgentBuilder = function(room){
 	
 	var Build =function(creep) {
 	    if (creep.memory.drinking === undefined || !creep.memory.drinking){
-	        console.log(creep);
 	        if (_.sum(creep.carry) === 0){
 	            creep.memory.drinking = true;
 	            return false;
