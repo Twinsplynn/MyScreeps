@@ -35,7 +35,7 @@ var AgentSpawner = function(spawn, currentRoom){
     this.Spawn = spawn;
     this.Room = currentRoom;
 
-	this.RequestSpawn = function(modules){
+	this.RequestWorker = function(modules){
 
 		// first check if we have one that fits
 		for(var i in this.Workers){
@@ -69,7 +69,7 @@ var AgentSpawner = function(spawn, currentRoom){
 			
 			if (this.Spawn.canCreateCreep(data.Modules, data.Name) == OK){
 			    this.Spawn.createCreep(data.Modules, data.Name, data.Memory)
-
+				Memory.Workers.push(data.Name);
 			}
 			else
 			{
