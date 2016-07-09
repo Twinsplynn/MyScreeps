@@ -1,3 +1,5 @@
+var roles = require('role.harvester');
+
 var AgentHarvester = function(room){
     
     /* init memory */
@@ -16,15 +18,31 @@ var AgentHarvester = function(room){
     
     /* Execution Logic */
     this.Run = function(){
-        
+        workers.forEach(function(worker){
+            roles.FindEnergy(worker);
+            roles.TransferEnergy(worker);
+        }, this)
     }
 
     this.Name = 'Harvester';
     
     var requestWorker = function(that, modules){
         var name = that.Room.Spawner.RequestWorker(modules, that.Name);
-        that.Memory.Harvesters.push({Name: name, Created: false});
+        that.Memory.Harvesters.push({Name: name});
     }
+
+    var workers = {};
+    this.Memory.Harvesters.forEach(function(name) {
+        var work = this.Room.Spawner.Workers[name];
+        if (work != undefined)
+        {
+            workers[name] = work;
+            if (work.Job == undefined || work.Job.Role == undefined || work.Job.Role != 'harvester')
+            {
+                work.Job = {Role: 'harvester', Mining: true};
+            }
+        }
+    }, this);
 
     /* Logics per level */
     var LevelOneLogic = function(that){

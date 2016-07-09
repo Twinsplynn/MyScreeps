@@ -14,6 +14,7 @@ var AgentSpawner = function(spawn, currentRoom){
 
 	// create all Workers
 	for(var name in Memory.Workers){
+		console.log(name);
 		var creep = Game.creeps[name];
 		var mem = Memory.Workers[name];
 
@@ -45,7 +46,7 @@ var AgentSpawner = function(spawn, currentRoom){
 				return this.Workers[i].Name;
 			}
 		}
-		return QueueSpawn(false, modules, undefined, undefined);
+		return QueueSpawn(false, modules, undefined, owner);
 	}
 
     var QueueSpawn = function(priority, modules, name, owner){

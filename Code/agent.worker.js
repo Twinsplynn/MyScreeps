@@ -9,7 +9,8 @@ var Worker = function(creep){
     }
 
     this.Memory = Memory.Workers[creep.name];
-    
+    this.Job = Memory.Workers[creep.name].Job;
+    this.Memory.Spawning = false;
 
     this.Creep = creep;
     this.Modules = {Work: findModuleCount.bind('WORK', this.Memory.Modules), Carry: findModuleCount.bind('CARRY', this.Memory.Modules), 
