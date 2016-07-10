@@ -5,7 +5,7 @@
 var Worker = function(creep){
 
     var findModuleCount = function(name, modules){
-        return modules.filter(name, function(m){ return (m == name)}).length;
+        return modules.filter(function(m){ return (m == name)}).length;
     }
 
     this.Memory = Memory.Workers[creep.name];

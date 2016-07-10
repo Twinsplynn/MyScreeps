@@ -43,10 +43,9 @@ var AgentBuilder = function(room){
         // We need one builder
         if (that.Memory.Builders.length == 0)
         {
-            var name = Math.random().toString(36).substr(2, 5);
             // request creep
-            that.Room.Spawner.QueueSpawn(false, [WORK, CARRY, MOVE], name);
-            that.Memory.Builders.push({Name: name, Created: false});
+            var name = that.Room.Spawner.RequestWorker([WORK, CARRY, MOVE], that.Name);
+            that.Memory.Builders.push(name);
         }
     }
     

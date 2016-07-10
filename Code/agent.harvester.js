@@ -60,9 +60,9 @@ var AgentHarvester = function(room){
         }
     }
     
-    var LevelTwoLogic = function(that){
+    function LevelTwoLogic(that){
         // We are at level two, take back our workers
-        workers.forEach(function(worker){
+        _.values(workers).forEach(function(worker){
              if (worker.Essential == Worker.JobPositionEnum.SECONDARY)
              {
                  worker.Essential = Worker.JobPositionEnum.CURRENT;
