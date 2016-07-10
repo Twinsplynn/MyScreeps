@@ -20,7 +20,7 @@ var AgentHarvester = function(room){
     /* Execution Logic */
     this.Run = function(){
         _.values(workers).forEach(function(worker){
-            if (worker.Essential == Worker.JobPositionEnum.CURRENT)
+            if (worker.Essential == Worker.JobPositionEnum.CURRENT) 
             {
                 roles.FindEnergy(worker);
                 roles.TransferEnergy(worker);
@@ -64,7 +64,7 @@ var AgentHarvester = function(room){
     function LevelTwoLogic(that){
         // We are at level two, take back our workers
         _.values(workers).forEach(function(worker){
-             if (worker.Essential == Worker.JobPositionEnum.SECONDARY)
+             if (worker.Essential != Worker.JobPositionEnum.CURRENT)
              {
                  worker.Essential = Worker.JobPositionEnum.CURRENT;
                  worker.Job = {Role: 'harvester', Mining: true};
