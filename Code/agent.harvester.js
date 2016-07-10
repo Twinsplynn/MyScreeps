@@ -38,9 +38,10 @@ var AgentHarvester = function(room){
     var workers = {};
     this.Memory.Harvesters.forEach(function(name, index) {
         var work = this.Room.Spawner.Workers[name];
+        workers[name] = work;
         if (work != undefined && work.Essential == Worker.JobPositionEnum.CURRENT)
         {
-            workers[name] = work;
+            
             if (work.Job == undefined || work.Job.Role == undefined || work.Job.Role != 'harvester')
             {
                 work.Job = {Role: 'harvester', Mining: true};

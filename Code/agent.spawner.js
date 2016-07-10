@@ -66,7 +66,7 @@ var AgentSpawner = function(spawn, currentRoom){
 
 		// first check if we have one that fits
 		for(var i in this.Workers){
-			if (!this.Workers[i].Essential && this.Workers[i].IsModuleSame(modules))
+			if (!this.Workers[i].Essential && this.Workers[i].IsModuleSame(modules) && this.Workers[i].Owner != owner)
 			{
 				return this.Workers[i].Name;
 			}
