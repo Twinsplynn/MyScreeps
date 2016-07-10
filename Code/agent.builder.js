@@ -68,13 +68,14 @@ var AgentBuilder = function(room){
                 if(worker.Creep.harvest(targets[0]) == ERR_NOT_IN_RANGE) {
                     worker.Creep.moveTo(targets[0]);
                 }
+                return true;
             }
             else
             {
                 console.log('no targets');
             }
             
-            return true;
+            
 	    }
 	    return false;
 	}
@@ -90,20 +91,22 @@ var AgentBuilder = function(room){
                 if(worker.Creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
                     worker.Creep.moveTo(targets[0]);
                 }
+                return true;
             }
-            return true;
+            
 	    }
 	    return false;
 	}
     var Upgrade = function(worker){
         if(worker.Creep.upgradeController(worker.Creep.room.controller) == ERR_NOT_IN_RANGE) {
-                worker.Creep.moveTo(creep.room.controller);
+                worker.Creep.moveTo(worker.Creep.room.controller);
             }
     }
     var jobs = 
     [
         GetEnergy,
-        Build
+        Build,
+        Upgrade
     ];
     
     this.Run = function(){

@@ -9,7 +9,6 @@ var Worker = function(creep){
     }
 
     this.Memory = Memory.Workers[creep.name];
-    this.Job = Memory.Workers[creep.name].Job;
     this.Memory.Spawning = false;
 
     this.Creep = creep;
@@ -23,7 +22,10 @@ var Worker = function(creep){
     
     this.__defineGetter__("Essential", function(){return this.Memory.Essential;});
     this.__defineSetter__("Essential", function(val){ this.Memory.Essential = val;});
-        
+    
+    this.__defineGetter__("Job", function(){return Memory.Workers[creep.name].Job});
+    this.__defineSetter__("Job", function(val){ Memory.Workers[creep.name].Job = val;});
+    
     this.IsModuleSame = function(modules){
         return (this.Modules.Attack() == findModuleCount('attack', modules) &&
             this.Modules.Work() == findModuleCount('work', modules) &&

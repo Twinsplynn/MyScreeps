@@ -15,7 +15,7 @@ var AgentRoom = function(currentRoom){
     this.Run = function(){
         this.Spawner.Run();
         this.Harvester.Run();
-       // this.Builder.Run();
+        this.Builder.Run();
     }
 };
 
