@@ -17,7 +17,6 @@ var AgentBuilder = function(room){
     this.Name = "AgentBuilder";
 
     var Level1Logic = function(that){
-        debugger;
         if (that.Memory.TempBuilders.length == 0)
         {
             // request temp worker
@@ -80,7 +79,7 @@ var AgentBuilder = function(room){
 	    return false;
 	}
 	
-	var Build =function(creep) {
+	var Build =function(worker) {
 	    if (worker.Job.Mining === undefined || !worker.Job.Mining){
 	        if (worker.Creep.carry.energy === 0){
 	            worker.Job.Mining = true;
@@ -96,6 +95,11 @@ var AgentBuilder = function(room){
 	    }
 	    return false;
 	}
+    var Upgrade = function(worker){
+        if(worker.Creep.upgradeController(worker.Creep.room.controller) == ERR_NOT_IN_RANGE) {
+                worker.Creep.moveTo(creep.room.controller);
+            }
+    }
     var jobs = 
     [
         GetEnergy,
@@ -113,31 +117,29 @@ var AgentBuilder = function(room){
                 // Lost temp, remove 
                 this.Memory.TempBuilders.splice(index, 1);
             }
-        });
+        }, this);
+        debugger;
         this.Memory.Builders.concat(this.Memory.TempBuilders).forEach(function(name, index) {
             var work = this.Room.Spawner.Workers[name];
             if (work != undefined)
             {
-                workers[name] = work;
+                
                 if (work.Job == undefined || work.Job.Role == undefined || work.Job.Role != 'builder')
                 {
                     work.Job = {Role: 'builder', Mining: true};
+                }
+                
+                for(var job in jobs){
+                    if (jobs[job](work))
+                    {
+                        break;
+                    }
                 }
             }
         }, this);
 
 
-        _.values(workers).forEach(function(worker){
-            
-            for(var job in jobs){
-                if (jobs[job](worker))
-                {
-                    break;
-                }
-            }
-                
-            
-        });
+        
     }
     
     

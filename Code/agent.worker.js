@@ -5,7 +5,7 @@
 var Worker = function(creep){
 
     var findModuleCount = function(name, modules){
-        return _.filter(modules, function(m){ m == name}).length;
+        return modules.filter(name, function(m){ return (m == name)}).length;
     }
 
     this.Memory = Memory.Workers[creep.name];
@@ -13,10 +13,10 @@ var Worker = function(creep){
     this.Memory.Spawning = false;
 
     this.Creep = creep;
-    this.Modules = {Work: findModuleCount.bind('WORK', this.Memory.Modules), Carry: findModuleCount.bind('CARRY', this.Memory.Modules), 
-        Move: findModuleCount.bind('MOVE', this.Memory.Modules), Attack: findModuleCount.bind('ATTACK', this.Memory.Modules), 
-        Ranged: findModuleCount.bind('RANGED_ATTACK', this.Memory.Modules), Heal: findModuleCount.bind('HEAL', this.Memory.Modules),
-         Claim: findModuleCount.bind('CLAIM', this.Memory.Modules), Tough: findModuleCount.bind('TOUGH', this.Memory.Modules)};
+    this.Modules = {Work: findModuleCount.bind(this, 'work', this.Memory.Modules), Carry: findModuleCount.bind(this, 'carry', this.Memory.Modules), 
+        Move: findModuleCount.bind(this, 'move', this.Memory.Modules), Attack: findModuleCount.bind(this, 'attack', this.Memory.Modules), 
+        Ranged: findModuleCount.bind(this, 'ranged_attack', this.Memory.Modules), Heal: findModuleCount.bind(this, 'heal', this.Memory.Modules),
+         Claim: findModuleCount.bind(this, 'claim', this.Memory.Modules), Tough: findModuleCount.bind(this, 'tough', this.Memory.Modules)};
     this.Name = creep.name;
     
     
@@ -25,14 +25,14 @@ var Worker = function(creep){
     this.__defineSetter__("Essential", function(val){ this.Memory.Essential = val;});
         
     this.IsModuleSame = function(modules){
-        return (this.Modules.Attack() == findModuleCount('ATTACK', modules) &&
-            this.Modules.Work() == findModuleCount('WORK', modules) &&
-            this.Modules.Carry() == findModuleCount('CARRY', modules) &&
-            this.Modules.Move() == findModuleCount('MOVE', modules) &&
-            this.Modules.Ranged() == findModuleCount('RANGED_ATTACK', modules) &&
-            this.Modules.Heal() == findModuleCount('HEAL', modules) &&
-            this.Modules.Claim() == findModuleCount('CLAIM', modules) &&
-            this.Modules.Tough == findModuleCount('TOUGH', modules));
+        return (this.Modules.Attack() == findModuleCount('attack', modules) &&
+            this.Modules.Work() == findModuleCount('work', modules) &&
+            this.Modules.Carry() == findModuleCount('carry', modules) &&
+            this.Modules.Move() == findModuleCount('move', modules) &&
+            this.Modules.Ranged() == findModuleCount('ranged_attack', modules) &&
+            this.Modules.Heal() == findModuleCount('heal', modules) &&
+            this.Modules.Claim() == findModuleCount('claim', modules) &&
+            this.Modules.Tough() == findModuleCount('tough', modules));
     }
 };
 Worker.JobPositionEnum = {CURRENT: 0, SECONDARY: 1, AVAILABLE: 2};
