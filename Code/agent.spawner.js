@@ -11,6 +11,20 @@ var AgentSpawner = function(spawn, currentRoom){
 	}
 
 	this.Workers = {};
+    var QueueSpawn = function(priority, modules, name, owner){
+	
+		if (name == undefined)
+		{
+			name = Math.random().toString(36).substr(2, 5);
+		}
+		if (priority === true){
+			Memory.AgentSpawn.Queue.unshift({Modules: modules, Name: name, Owner: owner});			
+		}
+		else{
+			Memory.AgentSpawn.Queue.push({Modules: modules, Name: name, Owner: owner});			
+		}
+		return name;
+	};
 
 	// create all Workers
 	for(var name in Memory.Workers){
@@ -23,7 +37,7 @@ var AgentSpawner = function(spawn, currentRoom){
 			// Has died. Let's check if was Keep
 			if (mem.Keep && mem.Spawning == false)
 			{
-				this.QueueSpawn(false, mem.Modules, mem.Name, undefined);
+				QueueSpawn(false, mem.Modules, mem.Name, mem.Owner);
 				mem.Spawning = true;
 			}
 		}
@@ -49,20 +63,6 @@ var AgentSpawner = function(spawn, currentRoom){
 		return QueueSpawn(false, modules, undefined, owner);
 	}
 
-    var QueueSpawn = function(priority, modules, name, owner){
-	
-		if (name == undefined)
-		{
-			name = Math.random().toString(36).substr(2, 5);
-		}
-		if (priority === true){
-			Memory.AgentSpawn.Queue.unshift({Modules: modules, Name: name, Owner: owner});			
-		}
-		else{
-			Memory.AgentSpawn.Queue.push({Modules: modules, Name: name, Owner: owner});			
-		}
-		return name;
-	};
 	
 
 	this.Run = function(){
@@ -71,7 +71,7 @@ var AgentSpawner = function(spawn, currentRoom){
 			
 			if (this.Spawn.canCreateCreep(data.Modules, data.Name) == OK){
 			    this.Spawn.createCreep(data.Modules, data.Name, undefined)
-				Memory.Workers[data.Name] = {Owner: data.Owner, Modules: data.Modules, Spawning: true, Keep: true,  Essential: true};
+				Memory.Workers[data.Name] = {Owner: data.Owner, Modules: data.Modules, Spawning: true, Keep: true,  Essential: true, Name: data.Name};
 			}
 			else
 			{
