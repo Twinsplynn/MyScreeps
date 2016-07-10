@@ -17,7 +17,8 @@ var AgentBuilder = function(room){
     this.Name = "AgentBuilder";
 
     var Level1Logic = function(that){
-        if (that.Memory.Builders.length == 0)
+        debugger;
+        if (that.Memory.TempBuilders.length == 0)
         {
             // request temp worker
             var name = that.Room.Spawner.RequestNonEssentialWorker([WORK,CARRY,MOVE], that.Name);
@@ -102,6 +103,7 @@ var AgentBuilder = function(room){
     ];
     
     this.Run = function(){
+
         // Get Workers
         var workers = {};
         this.Memory.TempBuilders.forEach(function(name, index){
@@ -125,7 +127,8 @@ var AgentBuilder = function(room){
         }, this);
 
 
-        workers.forEach(function(worker){
+        _.values(workers).forEach(function(worker){
+            
             for(var job in jobs){
                 if (jobs[job](worker))
                 {
@@ -140,6 +143,9 @@ var AgentBuilder = function(room){
     
     /* Do we need a builders */
     switch(room.Level){
+        case 1:
+            Level1Logic(this);
+            break;
         case 2:
             LevelTwoLogic(this);
             break;

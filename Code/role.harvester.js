@@ -1,4 +1,5 @@
 var roleUpgrader = require('role.upgrader');
+var Worker = require('agent.worker');
 
 var roleHarvester = {
 
@@ -70,7 +71,7 @@ var roleHarvester = {
             else
             {
                 // No more jobs, flag worker as non essential
-                worker.Essential = false;
+                worker.Essential = Worker.JobPositionEnum.AVAILABLE;
             }
         }
     }
