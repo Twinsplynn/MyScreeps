@@ -23,7 +23,7 @@ var Worker = function(creep){
     
     this.__defineGetter__("Essential", function(){return this.Memory.Essential;});
     this.__defineSetter__("Essential", function(val){ this.Memory.Essential = val;});
-    
+        
     this.IsModuleSame = function(modules){
         return (this.Modules.Attack() == findModuleCount('ATTACK', modules) &&
             this.Modules.Work() == findModuleCount('WORK', modules) &&
@@ -35,5 +35,7 @@ var Worker = function(creep){
             this.Modules.Tough == findModuleCount('TOUGH', modules));
     }
 };
+Worker.JobPositionEnum = {CURRENT: 0, SECONDARY: 1, AVAILABLE: 2};
+
 
 module.exports = Worker;

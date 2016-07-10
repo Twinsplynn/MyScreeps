@@ -1,4 +1,5 @@
 var roles = require('role.harvester');
+var Worker = require("agent.worker");
 
 var AgentHarvester = function(room){
     
@@ -19,8 +20,11 @@ var AgentHarvester = function(room){
     /* Execution Logic */
     this.Run = function(){
         _.values(workers).forEach(function(worker){
-            roles.FindEnergy(worker);
-            roles.TransferEnergy(worker);
+            if (worker.Essential == Worker.JobPositionEnum.CURRENT)
+            {
+                roles.FindEnergy(worker);
+                roles.TransferEnergy(worker);
+            }
         }, this);
     }
 
@@ -32,9 +36,9 @@ var AgentHarvester = function(room){
     }
 
     var workers = {};
-    this.Memory.Harvesters.forEach(function(name) {
+    this.Memory.Harvesters.forEach(function(name, index) {
         var work = this.Room.Spawner.Workers[name];
-        if (work != undefined)
+        if (work != undefined && work.Essential == Worker.JobPositionEnum.CURRENT)
         {
             workers[name] = work;
             if (work.Job == undefined || work.Job.Role == undefined || work.Job.Role != 'harvester')
@@ -57,7 +61,14 @@ var AgentHarvester = function(room){
     }
     
     var LevelTwoLogic = function(that){
-        // We are at level two, priority is to always have energy. 
+        // We are at level two, take back our workers
+        workers.forEach(function(worker){
+             if (worker.Essential == Worker.JobPositionEnum.SECONDARY)
+             {
+                 worker.Essential = Worker.JobPositionEnum.CURRENT;
+                 worker.Job = {Role: 'harvester', Mining: true};
+             }
+        });
         
         // Lets get more
         for(var i = that.Memory.Harvesters.length; i < 3; i++)

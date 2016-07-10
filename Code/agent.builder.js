@@ -1,3 +1,5 @@
+var Worker = require("agent.worker");
+
 var AgentBuilder = function(room){
     
     if (Memory.AgentBuilders === undefined)
@@ -7,44 +9,24 @@ var AgentBuilder = function(room){
     
     if (Memory.AgentBuilders[room.Name] === undefined)
     {
-        Memory.AgentBuilders[room.Name] = {Builders: [], WorkOder: undefined};
+        Memory.AgentBuilders[room.Name] = {Builders: [], TempBuilders: [], WorkOder: undefined};
     }
     
     this.Room = room;
     this.Memory = Memory.AgentBuilders[room.Name];
-    
-    
-    /* Make sure my builders are still alive */
-    for(var creep in this.Memory.Builders){
-        
-        if (Game.creeps[this.Memory.Builders[creep].Name] === undefined)
+    this.Name = "AgentBuilder";
+
+    var Level1Logic = function(that){
+        if (that.Memory.Builders.length == 0)
         {
-            if (!this.Memory.Builders[creep].Created)
+            // request temp worker
+            var name = that.Room.Spawner.RequestNonEssentialWorker([WORK,CARRY,MOVE], that.Name);
+            if (name != undefined)
             {
-                console.log(this.Memory.Builders[creep].Name + ' not created yet');
+                that.Memory.TempBuilders.push(name);
             }
-            else
-            {
-                console.log(this.Memory.Builders[creep].Name + ' is dead');
-                this.Memory.Builders.splice(creep, 1);
-            }            
-        }
-        else
-        {
-            if (!this.Memory.Builders[creep].Created)
-            {
-                this.Memory.Builders[creep].Created = true;
-            }
-            
         }
     }
-    
-    
-    
-    
-    
-    
-    
     var LevelTwoLogic = function(that){
         
         var flags = _.filter(Game.flags, function(flag){
@@ -71,20 +53,20 @@ var AgentBuilder = function(room){
     
     
     
-    var GetEnergy = function(creep) {
-	    if(creep.memory.drinking ) {
+    var GetEnergy = function(worker) {
+	    if(worker.Job.Mining ) {
 	        
-	        if (_.sum(creep.carry) === creep.carryCapacity)
+	        if (worker.Creep.carry.energy === worker.Creep.carryCapacity)
 	        {
-	            creep.memory.drinking = false;
+	            worker.Job.Mining = false;
 	            return false;
 	        }
 	        
-            var targets = creep.room.find(FIND_SOURCES);
+            var targets = worker.Creep.room.find(FIND_SOURCES);
             if(targets.length > 0) {
 
-                if(creep.harvest(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0]);
+                if(worker.Creep.harvest(targets[0]) == ERR_NOT_IN_RANGE) {
+                    worker.Creep.moveTo(targets[0]);
                 }
             }
             else
@@ -98,15 +80,15 @@ var AgentBuilder = function(room){
 	}
 	
 	var Build =function(creep) {
-	    if (creep.memory.drinking === undefined || !creep.memory.drinking){
-	        if (_.sum(creep.carry) === 0){
-	            creep.memory.drinking = true;
+	    if (worker.Job.Mining === undefined || !worker.Job.Mining){
+	        if (worker.Creep.carry.energy === 0){
+	            worker.Job.Mining = true;
 	            return false;
 	        }
-	        var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+	        var targets = worker.Creep.room.find(FIND_CONSTRUCTION_SITES);
             if(targets.length) {
-                if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0]);
+                if(worker.Creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
+                    worker.Creep.moveTo(targets[0]);
                 }
             }
             return true;
@@ -120,18 +102,39 @@ var AgentBuilder = function(room){
     ];
     
     this.Run = function(){
-        for(var index in this.Memory.Builders){
-            if (this.Memory.Builders[index].Created){
-                var creep = Game.creeps[this.Memory.Builders[index].Name];
-                for(var job in jobs){
-                    if (jobs[job](creep))
-                    {
-                        break;
-                    }
-                }
-                
+        // Get Workers
+        var workers = {};
+        this.Memory.TempBuilders.forEach(function(name, index){
+            var work = this.Room.Spawner.Workers[name];
+            if (work.Essential == Worker.JobPositionEnum.CURRENT)
+            {
+                // Lost temp, remove 
+                this.Memory.TempBuilders.splice(index, 1);
             }
-        }
+        });
+        this.Memory.Builders.concat(this.Memory.TempBuilders).forEach(function(name, index) {
+            var work = this.Room.Spawner.Workers[name];
+            if (work != undefined)
+            {
+                workers[name] = work;
+                if (work.Job == undefined || work.Job.Role == undefined || work.Job.Role != 'builder')
+                {
+                    work.Job = {Role: 'builder', Mining: true};
+                }
+            }
+        }, this);
+
+
+        workers.forEach(function(worker){
+            for(var job in jobs){
+                if (jobs[job](worker))
+                {
+                    break;
+                }
+            }
+                
+            
+        });
     }
     
     

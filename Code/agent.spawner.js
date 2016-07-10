@@ -51,6 +51,17 @@ var AgentSpawner = function(spawn, currentRoom){
     this.Spawn = spawn;
     this.Room = currentRoom;
 
+	this.RequestNonEssentialWorker = function(modules, owner){
+		for(var i in this.Workers){
+			if (this.Workers[i].Essential == Worker.JobPositionEnum.AVAILABLE && this.Workers[i].IsModuleSame(modules))
+			{
+				this.Workers[i].Essential = Worker.JobPositionEnum.SENCONDARY;
+				return this.Workers[i].Name;
+			}
+		}
+		return undefined;
+	}
+
 	this.RequestWorker = function(modules, owner){
 
 		// first check if we have one that fits
@@ -71,7 +82,7 @@ var AgentSpawner = function(spawn, currentRoom){
 			
 			if (this.Spawn.canCreateCreep(data.Modules, data.Name) == OK){
 			    this.Spawn.createCreep(data.Modules, data.Name, undefined)
-				Memory.Workers[data.Name] = {Owner: data.Owner, Modules: data.Modules, Spawning: true, Keep: true,  Essential: true, Name: data.Name};
+				Memory.Workers[data.Name] = {Owner: data.Owner, Modules: data.Modules, Spawning: true, Keep: true,  Essential: Worker.JobPositionEnum.CURRENT, Name: data.Name};
 			}
 			else
 			{

@@ -67,6 +67,11 @@ var roleHarvester = {
                 }   
                 
             }
+            else
+            {
+                // No more jobs, flag worker as non essential
+                worker.Essential = false;
+            }
         }
     }
 };
