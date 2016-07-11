@@ -83,10 +83,10 @@ var roleHarvester = {
             that.GetBatteries().array.forEach(function(battery) {
                 if (battery.Creep.carry.energy < battery.Creep.carryCapacity)
                 {
-                    if(worker.Creep.transfer(battery, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                        worker.Creep.moveTo(battery.pos);
+                    if(worker.Creep.transfer(battery.Creep, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        worker.Creep.moveTo(battery.Creep.pos);
                     }
-                    break;
+                    return;
                 }
             }, this);
         }
