@@ -82,7 +82,7 @@ var roleHarvester = {
         }
     },
     Battery: function(worker){
-        var dest = worker.Creep.pos.find(FIND_FLAGS, {
+        var dest = worker.Creep.room.find(FIND_FLAGS, {
             filter: (flag) => {
                 return flag.color == COLOR_YELLOW && flag.secondaryColor == COLOR_WHITE;
             }
