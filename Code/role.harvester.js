@@ -95,7 +95,7 @@ var roleHarvester = {
 
         if (worker.Job.BatteryPos != undefined && worker.Creep.pos != worker.Job.BatteryPos)
         {
-            worker.Creep.moveTo(worker.Job.BatteryPos);
+            worker.Creep.moveTo(worker.Job.BatteryPos.x,worker.Job.BatteryPos.y);
         }
     }
 };
