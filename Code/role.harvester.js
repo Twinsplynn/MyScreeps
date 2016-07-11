@@ -80,6 +80,23 @@ var roleHarvester = {
                 
             }
         }
+    },
+    Battery: function(worker){
+        var dest = worker.Creep.pos.find(FIND_FLAGS, {
+            filter: (flag) => {
+                return flag.color == COLOR_YELLOW && flag.secondaryColor == COLOR_WHITE;
+            }
+        });
+        if (dest)
+        {
+            worker.Job.BatteryPos = dest[0].pos;
+            dest[0].remove();
+        }
+
+        if (worker.Job.BatteryPos != undefined && worker.Creep.pos != worker.Job.BatteryPos)
+        {
+            worker.Creep.moveTo(worker.Job.BatteryPos);
+        }
     }
 };
 

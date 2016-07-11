@@ -31,6 +31,10 @@ var AgentHarvester = function(room){
             {
                 roles.Mining(worker);
             }
+            else if (worker.Job.Role == 'battery')
+            {
+                roles.Battery(worker);
+            }
         }, this);
     }
 
@@ -49,9 +53,13 @@ var AgentHarvester = function(room){
             workers[name] = work;
             if (work.Job == undefined || work.Job.Role == undefined)
             {
-                if (work.Modules.Work() > 1 && work.Modules.Carry())
+                if (work.Modules.Carry() == 0)
                 {
                     work.Job = {Role: 'miner', Mining: true};
+                }
+                else if (work.Modules.Work() == 0 && work.Modules.Move() == 1)
+                {
+                    work.Job = {Role: 'battery'};
                 }
                 else
                 {
@@ -72,11 +80,15 @@ var AgentHarvester = function(room){
         }
 
         // We start with a simple harvester
-        if (that.Memory.Harvesters.length < 2 && _.values(workers).length == 1)
+        if (_.values(workers).length == 1)
         {
             // request creep
             requestWorker(that, [CARRY, CARRY, MOVE, MOVE]);
-
+        }
+        if (_.values(workers).length == 2)
+        {
+            // Create battery for upgrader
+            requestWorker(that, [CARRY, CARRY, CARRY, MOVE]);
         }
     }
     
