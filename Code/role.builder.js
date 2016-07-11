@@ -24,7 +24,19 @@ var roleBuilder = {
                 creep.moveTo(sources[0]);
             }
 	    }
-	}
+	},
+	Upgrade: function(worker){
+		if (worker.Job.Mining == false){
+			if(worker.Creep.upgradeController(worker.Creep.room.controller) == ERR_NOT_IN_RANGE) {
+				worker.Creep.moveTo(worker.Creep.room.controller);
+			}
+
+			if (worker.Creep.carry.energy == 0)
+			{
+				worker.Job.Mining = true;
+			}
+		}
+    }
 	
 	
 };

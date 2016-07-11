@@ -1,5 +1,6 @@
 var roles = require('role.harvester');
 var Worker = require("agent.worker");
+var builder = require('role.builder');
 
 var AgentHarvester = function(room){
     
@@ -24,6 +25,7 @@ var AgentHarvester = function(room){
             {
                 roles.FindEnergy(worker);
                 roles.TransferEnergy(worker);
+                builder.Upgrade(worker);
             }
             else if (worker.Job.Role == 'miner')
             {
@@ -42,9 +44,9 @@ var AgentHarvester = function(room){
     var workers = {};
     this.Memory.Harvesters.forEach(function(name, index) {
         var work = this.Room.Spawner.Workers[name];
-        workers[name] = work;
-        if (work != undefined && work.Essential == Worker.JobPositionEnum.CURRENT)
+        if (work != undefined)
         {
+            workers[name] = work;
             if (work.Job == undefined || work.Job.Role == undefined)
             {
                 if (work.Modules.Work() > 1 && work.Modules.Carry())
@@ -70,7 +72,7 @@ var AgentHarvester = function(room){
         }
 
         // We start with a simple harvester
-        if (that.Memory.Harvesters.length < 2)
+        if (that.Memory.Harvesters.length < 2 && _.values(workers).length == 1)
         {
             // request creep
             requestWorker(that, [CARRY, CARRY, MOVE, MOVE]);

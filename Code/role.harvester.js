@@ -37,8 +37,8 @@ var roleHarvester = {
     Mining: function(worker){
         var source = worker.Creep.pos.findClosestByRange(FIND_SOURCES);
         if (source){
-            if (worker.Creep.harvest(source[0]) == ERR_NOT_IN_RANGE){
-                worker.Creep.moveTo(source[0]);
+            if (worker.Creep.harvest(source) == ERR_NOT_IN_RANGE){
+                worker.Creep.moveTo(source);
             }
         }
     },
@@ -52,9 +52,9 @@ var roleHarvester = {
         if (worker.Creep.carry.energy < worker.Creep.carryCapacity && worker.Job.Mining)
         {
             var sources = worker.Creep.pos.findClosestByRange(FIND_DROPPED_ENERGY);
-            if (source){
-                if(worker.Creep.pickup(sources[0]) == ERR_NOT_IN_RANGE) {
-                    worker.Creep.moveTo(sources[0]);
+            if (sources){
+                if(worker.Creep.pickup(sources) == ERR_NOT_IN_RANGE) {
+                    worker.Creep.moveTo(sources);
                 }
             }
         }
@@ -78,11 +78,6 @@ var roleHarvester = {
                    worker.Creep.moveTo(targets[0]);
                 }   
                 
-            }
-            else
-            {
-                // No more jobs, flag worker as non essential
-                worker.Essential = Worker.JobPositionEnum.AVAILABLE;
             }
         }
     }
