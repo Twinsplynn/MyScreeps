@@ -18,22 +18,34 @@ var AgentHarvester = function(room){
     this.Room = room;
     this.Memory = Memory.AgentHarvesters[room.Name];
     
+    this.GetBatteries = function(){
+        var batteries = [];
+        _.values(workers).forEach(function(worker){
+            
+            if (worker.Job.Role == 'battery'){
+                batteries.push(worker);
+            }
+
+        });
+        return batteries;
+    }
+
     /* Execution Logic */
     this.Run = function(){
         _.values(workers).forEach(function(worker){
             if (worker.Job.Role == 'harvester') 
             {
-                roles.FindEnergy(worker);
-                roles.TransferEnergy(worker);
-                builder.Upgrade(worker);
+                roles.FindEnergy(this, worker);
+                roles.TransferEnergy(this,worker);
+                builder.Upgrade(this, worker);
             }
             else if (worker.Job.Role == 'miner')
             {
-                roles.Mining(worker);
+                roles.Mining(this, worker);
             }
             else if (worker.Job.Role == 'battery')
             {
-                roles.Battery(worker);
+                roles.Battery(this, worker);
             }
         }, this);
     }

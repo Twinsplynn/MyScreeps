@@ -34,7 +34,7 @@ var roleHarvester = {
         }
 	},
 
-    Mining: function(worker){
+    Mining: function(that, worker){
         var source = worker.Creep.pos.findClosestByRange(FIND_SOURCES);
         if (source){
             if (worker.Creep.harvest(source) == ERR_NOT_IN_RANGE){
@@ -43,7 +43,7 @@ var roleHarvester = {
         }
     },
 
-    FindEnergy: function(worker){
+    FindEnergy: function(that, worker){
         if (worker.Creep.carry.energy == worker.Creep.carryCapacity && worker.Job.Mining)
         {
             worker.Job.Mining = false;
@@ -59,7 +59,7 @@ var roleHarvester = {
             }
         }
     },
-    TransferEnergy: function(worker){
+    TransferEnergy: function(that, worker){
         if (worker.Creep.carry.energy == 0 && !worker.Job.Mining){
             worker.Job.Mining = true;
             return;
@@ -79,9 +79,19 @@ var roleHarvester = {
                 }   
                 
             }
+            // look for batteries
+            that.GetBatteries().array.forEach(function(battery) {
+                if (battery.Creep.carry.energy < battery.Creep.carryCapacity)
+                {
+                    if(worker.Creep.transfer(battery, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        worker.Creep.moveTo(battery.pos);
+                    }
+                    break;
+                }
+            }, this);
         }
     },
-    Battery: function(worker){
+    Battery: function(that, worker){
         var dest = worker.Creep.room.find(FIND_FLAGS, {
             filter: (flag) => {
                 return flag.color == COLOR_YELLOW && flag.secondaryColor == COLOR_WHITE;
