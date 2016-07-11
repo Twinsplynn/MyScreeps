@@ -17,15 +17,15 @@ var AgentBuilder = function(room){
     this.Name = "AgentBuilder";
 
     var Level1Logic = function(that){
-        if (that.Memory.TempBuilders.length == 0)
-        {
-            // request temp worker
-            var name = that.Room.Spawner.RequestNonEssentialWorker([WORK,CARRY,MOVE], that.Name);
-            if (name != undefined)
-            {
-                that.Memory.TempBuilders.push(name);
-            }
-        }
+        // if (that.Memory.Builders.length == 0)
+        // {
+        //     // request temp worker
+        //     var name = that.Room.Spawner.RequestWorker([WORK,CARRY,MOVE], that.Name);
+        //     if (name != undefined)
+        //     {
+        //         that.Memory.Builders.push(name);
+        //     }
+        // }
     }
     var LevelTwoLogic = function(that){
         

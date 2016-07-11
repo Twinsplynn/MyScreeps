@@ -51,7 +51,7 @@ var AgentSpawner = function(spawn, currentRoom){
     this.Spawn = spawn;
     this.Room = currentRoom;
 
-	this.RequestNonEssentialWorker = function(modules, owner){
+/*	this.RequestNonEssentialWorker = function(modules, owner){
 		for(var i in this.Workers){
 			if (this.Workers[i].Essential == Worker.JobPositionEnum.AVAILABLE && this.Workers[i].IsModuleSame(modules))
 			{
@@ -61,16 +61,16 @@ var AgentSpawner = function(spawn, currentRoom){
 		}
 		return undefined;
 	}
-
+*/
 	this.RequestWorker = function(modules, owner){
 
 		// first check if we have one that fits
-		for(var i in this.Workers){
+		/*for(var i in this.Workers){
 			if (!this.Workers[i].Essential && this.Workers[i].IsModuleSame(modules) && this.Workers[i].Owner != owner)
 			{
 				return this.Workers[i].Name;
 			}
-		}
+		}*/
 		return QueueSpawn(false, modules, undefined, owner);
 	}
 

@@ -20,10 +20,14 @@ var AgentHarvester = function(room){
     /* Execution Logic */
     this.Run = function(){
         _.values(workers).forEach(function(worker){
-            if (worker.Essential == Worker.JobPositionEnum.CURRENT) 
+            if (worker.Job.Role == 'harvester') 
             {
                 roles.FindEnergy(worker);
                 roles.TransferEnergy(worker);
+            }
+            else if (worker.Job.Role == 'miner')
+            {
+                roles.Mining(worker);
             }
         }, this);
     }
@@ -41,10 +45,16 @@ var AgentHarvester = function(room){
         workers[name] = work;
         if (work != undefined && work.Essential == Worker.JobPositionEnum.CURRENT)
         {
-            
-            if (work.Job == undefined || work.Job.Role == undefined || work.Job.Role != 'harvester')
+            if (work.Job == undefined || work.Job.Role == undefined)
             {
-                work.Job = {Role: 'harvester', Mining: true};
+                if (work.Modules.Work() > 1 && work.Modules.Carry())
+                {
+                    work.Job = {Role: 'miner', Mining: true};
+                }
+                else
+                {
+                    work.Job = {Role: 'harvester', Mining: true};
+                }
             }
         }
     }, this);
@@ -53,24 +63,22 @@ var AgentHarvester = function(room){
     var LevelOneLogic = function(that){
         // We are at level one, priority is to always have energy. 
         
+        if (that.Memory.Harvesters.length == 0)
+        {
+            // create miner
+            requestWorker(that, [WORK, WORK, MOVE])
+        }
+
         // We start with a simple harvester
         if (that.Memory.Harvesters.length < 2)
         {
             // request creep
-            requestWorker(that, [WORK, CARRY, MOVE]);
+            requestWorker(that, [CARRY, CARRY, MOVE, MOVE]);
+
         }
     }
     
     function LevelTwoLogic(that){
-        // We are at level two, take back our workers
-        _.values(workers).forEach(function(worker){
-             if (worker.Essential != Worker.JobPositionEnum.CURRENT)
-             {
-                 worker.Essential = Worker.JobPositionEnum.CURRENT;
-                 worker.Job = {Role: 'harvester', Mining: true};
-             }
-        });
-        
         // Lets get more
         for(var i = that.Memory.Harvesters.length; i < 3; i++)
         {

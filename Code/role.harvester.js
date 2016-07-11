@@ -34,6 +34,15 @@ var roleHarvester = {
         }
 	},
 
+    Mining: function(worker){
+        var source = worker.Creep.pos.findClosestByRange(FIND_SOURCES);
+        if (source){
+            if (worker.Creep.harvest(source[0]) == ERR_NOT_IN_RANGE){
+                worker.Creep.moveTo(source[0]);
+            }
+        }
+    },
+
     FindEnergy: function(worker){
         if (worker.Creep.carry.energy == worker.Creep.carryCapacity && worker.Job.Mining)
         {
@@ -42,10 +51,12 @@ var roleHarvester = {
         }
         if (worker.Creep.carry.energy < worker.Creep.carryCapacity && worker.Job.Mining)
         {
-            var sources = worker.Creep.room.find(FIND_SOURCES);
-                if(worker.Creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
+            var sources = worker.Creep.pos.findClosestByRange(FIND_DROPPED_ENERGY);
+            if (source){
+                if(worker.Creep.pickup(sources[0]) == ERR_NOT_IN_RANGE) {
                     worker.Creep.moveTo(sources[0]);
                 }
+            }
         }
     },
     TransferEnergy: function(worker){
