@@ -78,7 +78,7 @@ var AgentSpawner = function(spawn, currentRoom){
 
 	this.Run = function(){
 		if (Memory.AgentSpawn.Queue.length > 0){
-			var data = Memory.AgentSpawn.Queue.pop();
+			var data = Memory.AgentSpawn.Queue.shift();
 			
 			if (this.Spawn.canCreateCreep(data.Modules, data.Name) == OK){
 			    this.Spawn.createCreep(data.Modules, data.Name, undefined)
