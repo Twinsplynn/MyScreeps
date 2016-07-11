@@ -80,12 +80,12 @@ var AgentHarvester = function(room){
         }
 
         // We start with a simple harvester
-        if (_.values(workers).length == 1)
+        if (that.Memory.Harvesters.length == 1)
         {
             // request creep
             requestWorker(that, [CARRY, CARRY, MOVE, MOVE]);
         }
-        if (_.values(workers).length == 2)
+        if (that.Memory.Harvesters.length == 2)
         {
             // Create battery for upgrader
             requestWorker(that, [CARRY, CARRY, CARRY, MOVE]);

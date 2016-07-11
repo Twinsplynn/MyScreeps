@@ -87,7 +87,7 @@ var roleHarvester = {
                 return flag.color == COLOR_YELLOW && flag.secondaryColor == COLOR_WHITE;
             }
         });
-        if (dest)
+        if (dest.length > 0)
         {
             worker.Job.BatteryPos = dest[0].pos;
             dest[0].remove();
