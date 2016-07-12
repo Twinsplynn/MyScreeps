@@ -14,14 +14,27 @@ class CreepWorker {
     get Memory() {
         return this._memory;
     }
+    static CreateWorker(name, creep) {
+        if (MemoryManager_1.MemoryManager.memory.workers[name] == undefined) {
+            return undefined;
+        }
+        if (MemoryManager_1.MemoryManager.memory.workers[name].Role == "Miner") {
+            return new Miner(creep);
+        }
+    }
     FindClosestByRange(type) {
         return this._creep.pos.findClosestByPath(type);
+    }
+    Work() {
+        this._workToDo();
     }
 }
 exports.CreepWorker = CreepWorker;
 class Miner extends CreepWorker {
-    GoMine() {
-        var source = this.FindClosestByRange(FIND_SOURCES);
+    GoMine(source) {
+        if (!source) {
+            source = this.FindClosestByRange(FIND_SOURCES);
+        }
         if (source) {
             if (this._creep.harvest(source) == ERR_NOT_IN_RANGE) {
                 this._creep.moveTo(source);

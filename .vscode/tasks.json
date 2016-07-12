@@ -5,7 +5,7 @@
     "command": "tsc",
     "isShellCommand": true,
     "args": ["-p", "."],
-    "showOutput": "always",
+    "showOutput": "silent",
     "windows": {
         "command": "tsc"
     },
