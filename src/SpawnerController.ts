@@ -19,7 +19,7 @@ export class SpawnController
         
         if (MemoryManager.memory.spawner == undefined)
         {
-            MemoryManager.memory.spawner = {Queue: [{Modules: new Array<string>(), Name: "", Owner: ""}]}
+            MemoryManager.memory.spawner = {Queue: [null]}
         }
 
     
