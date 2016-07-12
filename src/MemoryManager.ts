@@ -31,7 +31,6 @@ export namespace MemoryManager {
 
   export function loadMemory(): void {
     this.memory = Memory;
-    this.memory.workers = {};
   }
 
 }
