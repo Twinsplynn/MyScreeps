@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import * as __ from "lodash";
 import {MemoryManager} from "./MemoryManager";
 
 
@@ -22,9 +22,9 @@ export class CreepWorker
         this.Memory.Spawning = false;
         this._name = creep.name;
 
-        this._modules.Carry = _.filter<string>(this.Memory.Modules, name => {return name == "carry"}).length;
-        this._modules.Work = _.filter<string>(this.Memory.Modules, name => {return name == "work"}).length;
-        this._modules.Move = _.filter<string>(this.Memory.Modules, name => {return name == "move"}).length;
+        this._modules.Carry = __.filter<string>(this.Memory.Modules, name => {return name == "carry"}).length;
+        this._modules.Work = __.filter<string>(this.Memory.Modules, name => {return name == "work"}).length;
+        this._modules.Move = __.filter<string>(this.Memory.Modules, name => {return name == "move"}).length;
 
     }
 }   
