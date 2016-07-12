@@ -4,6 +4,9 @@ const MemoryManager_1 = require("./MemoryManager");
 class HarvesterController {
     constructor(room) {
         this._room = room;
+        if (MemoryManager_1.MemoryManager.memory.harvester == undefined) {
+            MemoryManager_1.MemoryManager.memory.harvester = { Queue: new Array() };
+        }
         this._queue = MemoryManager_1.MemoryManager.memory.harvester.Queue;
         this._workers = new Array();
         for (let name of this._queue) {

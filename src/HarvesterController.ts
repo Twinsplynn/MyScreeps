@@ -12,6 +12,12 @@ export class HarvesterController
     constructor(room :RoomController)
     {
         this._room = room;
+
+        if (MemoryManager.memory.harvester == undefined)
+        {
+            MemoryManager.memory.harvester = {Queue: new Array<string>()};
+        }
+
         this._queue = MemoryManager.memory.harvester.Queue;
         this._workers = new Array<CreepWorker>();
 
