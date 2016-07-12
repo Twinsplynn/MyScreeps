@@ -1,9 +1,11 @@
 import { SpawnController } from './SpawnerController';
+import { HarvesterController } from './HarvesterController';
 import * as __ from 'lodash';
 
 export class RoomController
 {
     private _spawnController : SpawnController;
+    private _harvester : HarvesterController;
     private _room : Room; 
     private _level : number;
 
@@ -11,6 +13,7 @@ export class RoomController
     {
         this._room = room;
         this._spawnController = new SpawnController(this, this._room.find<Spawn>(FIND_MY_SPAWNS)[0]);
+        this._harvester = new HarvesterController(this);
         this._level = room.controller.level;
         
 
@@ -18,6 +21,7 @@ export class RoomController
 
     public Execute(){
         this._spawnController.Execute();
+        this._harvester.Execute();
     }
 
     public get Level():number{
