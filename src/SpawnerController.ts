@@ -7,7 +7,7 @@ export class SpawnController
     private _roomController : RoomController;
     private _spawn : Spawn;
     private _workers : { [path:string]: CreepWorker }; 
-    private _queue : [{Modules: Array<string>, Name: string, Owner: string}];
+    private _queue : Array<{Modules: Array<string>, Name: string, Owner: string}>;
 
     
 
@@ -19,7 +19,7 @@ export class SpawnController
         
         if (MemoryManager.memory.spawner == undefined)
         {
-            MemoryManager.memory.spawner = {Queue: [null]}
+            MemoryManager.memory.spawner = {Queue: new Array<{Modules: Array<string>, Name: string, Owner: string}>()}
         }
 
     

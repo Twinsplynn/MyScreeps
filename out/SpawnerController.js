@@ -6,7 +6,7 @@ class SpawnController {
         this._spawn = spawn;
         this._workers = {};
         if (MemoryManager_1.MemoryManager.memory.spawner == undefined) {
-            MemoryManager_1.MemoryManager.memory.spawner = { Queue: [null] };
+            MemoryManager_1.MemoryManager.memory.spawner = { Queue: new Array() };
         }
         this._queue = MemoryManager_1.MemoryManager.memory.spawner.Queue;
     }
