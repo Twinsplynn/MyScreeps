@@ -14,5 +14,19 @@ class CreepWorker {
     get Memory() {
         return this._memory;
     }
+    FindClosestByRange(type) {
+        return this._creep.pos.findClosestByPath(type);
+    }
 }
 exports.CreepWorker = CreepWorker;
+class Miner extends CreepWorker {
+    GoMine() {
+        var source = this.FindClosestByRange(FIND_SOURCES);
+        if (source) {
+            if (this._creep.harvest(source) == ERR_NOT_IN_RANGE) {
+                this._creep.moveTo(source);
+            }
+        }
+    }
+}
+exports.Miner = Miner;

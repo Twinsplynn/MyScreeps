@@ -6,7 +6,7 @@ export class CreepWorker
 {
     
     private _modules : {Work: number, Carry: number, Move: number};
-    private _creep : Creep;
+    protected _creep : Creep;
     private _memory : {Modules:Array<string>, Name:string, Spawning: boolean};
     private _name : string;
 
@@ -27,5 +27,25 @@ export class CreepWorker
         this._modules.Move = __.filter<string>(this.Memory.Modules, name => {return name == "move"}).length;
 
     }
+
+    public FindClosestByRange<T>(type : number) : T
+    {
+        return this._creep.pos.findClosestByPath<T>(type);
+    }
 }   
+
+export class Miner extends CreepWorker
+{
+    public GoMine()
+    {
+        var source = this.FindClosestByRange<Source>(FIND_SOURCES);
+        if (source){
+            if (this._creep.harvest(source) == ERR_NOT_IN_RANGE){
+                this._creep.moveTo(source);
+            }
+        }
+    }
+
+
+}
 
