@@ -7,7 +7,7 @@ export class SpawnController
     private _roomController : RoomController;
     private _spawn : Spawn;
     private _workers : { [path:string]: CreepWorker }; 
-    private _queue : [{modules: Array<string>, name: string, owner: string}];
+    private _queue : [{Modules: Array<string>, Name: string, Owner: string}];
 
     
 
@@ -19,7 +19,7 @@ export class SpawnController
         
         if (MemoryManager.memory.spawner == undefined)
         {
-            MemoryManager.memory.spawner = {Queue: [{modules: new Array<string>(), name: "", owner: ""}]}
+            MemoryManager.memory.spawner = {Queue: [{Modules: new Array<string>(), Name: "", Owner: ""}]}
         }
 
     
@@ -34,7 +34,7 @@ export class SpawnController
 			name = Math.random().toString(36).substr(2, 5);
 		}
 		
-		this._queue.push({modules, name, owner});			
+		this._queue.push({Modules: modules, Name: name, Owner: owner});			
 		
 		return name;
 	};

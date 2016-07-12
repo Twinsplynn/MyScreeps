@@ -13,7 +13,7 @@ class GameMemory implements Memory
         [name: string]: any;
     };
     spawner: {
-        Queue: [{modules: Array<string>, name: string, owner: string}];
+        Queue: [{Modules: Array<string>, Name: string, Owner: string}];
     };
     
     workers: {

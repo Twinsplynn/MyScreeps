@@ -6,7 +6,7 @@ class SpawnController {
         this._spawn = spawn;
         this._workers = {};
         if (MemoryManager_1.MemoryManager.memory.spawner == undefined) {
-            MemoryManager_1.MemoryManager.memory.spawner = { Queue: [{ modules: new Array(), name: "", owner: "" }] };
+            MemoryManager_1.MemoryManager.memory.spawner = { Queue: [{ Modules: new Array(), Name: "", Owner: "" }] };
         }
         this._queue = MemoryManager_1.MemoryManager.memory.spawner.Queue;
     }
@@ -14,7 +14,7 @@ class SpawnController {
         if (name == undefined) {
             name = Math.random().toString(36).substr(2, 5);
         }
-        this._queue.push({ modules: modules, name: name, owner: owner });
+        this._queue.push({ Modules: modules, Name: name, Owner: owner });
         return name;
     }
     ;
