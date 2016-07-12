@@ -21,5 +21,16 @@ class SpawnController {
     RequestWorker(modules, owner) {
         return this.QueueSpawn(modules, undefined, owner);
     }
+    Execute() {
+        if (this._queue.length > 0) {
+            var info = this._queue.shift();
+            if (this._spawn.canCreateCreep(info.Modules, info.Name) == OK) {
+                this._spawn.createCreep(info.Modules, info.Name);
+            }
+            else {
+                this._queue.unshift(info);
+            }
+        }
+    }
 }
 exports.SpawnController = SpawnController;

@@ -14,4 +14,8 @@ export class RoomController
         let name = this._spawnController.RequestWorker([WORK, CARRY, MOVE], "Test");
         console.log(name);
     }
+
+    public Execute(){
+        this._spawnController.Execute();
+    }
 }
