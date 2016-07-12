@@ -22,7 +22,8 @@ export class CreepWorker
         this._memory = MemoryManager.memory.workers[creep.name];
         this.Memory.Spawning = false;
         this._name = creep.name;
-
+        
+        this._modules = {Work:0,Carry:0,Move:0};
         this._modules.Carry = __.filter<string>(this.Memory.Modules, name => {return name == "carry"}).length;
         this._modules.Work = __.filter<string>(this.Memory.Modules, name => {return name == "work"}).length;
         this._modules.Move = __.filter<string>(this.Memory.Modules, name => {return name == "move"}).length;
