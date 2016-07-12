@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es6",
+        "removeComments": true,
+        "noResolve": false,
+        "noImplicitAny": true,
+        "outDir": "out"
+    },
+    "compileOnSave": false,
+    "files": [
+        "./src/main.ts",
+        "./src/World.ts",
+        "./src/RoomController.ts",
+        "./src/SpawnerController.ts",
+        "./src/MemoryManager.ts",
+        "./src/Worker.ts",
+        "./node_modules/screeps-typescript-declarations/dist/screeps.d.ts",
+        "./typings/modules/lodash/index.d.ts"
+    ]
+
+
+}

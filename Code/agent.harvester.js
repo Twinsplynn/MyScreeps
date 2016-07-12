@@ -26,7 +26,7 @@ var AgentHarvester = function(room){
                 batteries.push(worker);
             }
 
-        });
+        }, this);
         return batteries;
     }
 

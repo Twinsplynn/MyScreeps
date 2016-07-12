@@ -1,0 +1,20 @@
+{
+  "name": "twinsplynn-screeps",
+  "version": "0.0.0",
+  "description": "",
+  "main": "./dist/boot/main.js",
+  "scripts": {
+    "postinstall": "typings install",
+    "typings": "typings"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "tsproject": "^1.2.1",
+    "typings": "^1.3.0"
+  },
+  "dependencies": {
+    "lodash": "^4.13.1",
+    "screeps-typescript-declarations": "^4.2.0"
+  }
+}
