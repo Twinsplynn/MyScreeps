@@ -7,10 +7,10 @@ export class CreepWorker
     
     private _modules : {Work: number, Carry: number, Move: number};
     private _creep : Creep;
-    private _memory : {Modules:[string], Name:string, Spawning: boolean};
+    private _memory : {Modules:Array<string>, Name:string, Spawning: boolean};
     private _name : string;
 
-    public get Memory():{Modules:[string], Name:string, Spawning: boolean} {
+    public get Memory():{Modules:Array<string>, Name:string, Spawning: boolean} {
         return this._memory;
     }
 

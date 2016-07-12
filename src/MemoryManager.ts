@@ -13,12 +13,12 @@ class GameMemory implements Memory
         [name: string]: any;
     };
     spawner: {
-        Queue: [{modules: [string], name: string, owner: string}];
+        Queue: [{modules: Array<string>, name: string, owner: string}];
     };
     
     workers: {
-        [name: string]: {Modules:[string], Name:string, Spawning: boolean};
-    };
+        [name:string] :{Modules:Array<string>, Name:string, Spawning: boolean};
+    }
 }
 
 export namespace MemoryManager {
@@ -27,6 +27,7 @@ export namespace MemoryManager {
 
   export function loadMemory(): void {
     this.memory = Memory;
+    this.memory.workers = {};
   }
 
 }

@@ -5,6 +5,9 @@ class SpawnController {
         this._roomController = room;
         this._spawn = spawn;
         this._workers = {};
+        if (MemoryManager_1.MemoryManager.memory.spawner == undefined) {
+            MemoryManager_1.MemoryManager.memory.spawner = { Queue: [{ modules: new Array(), name: "", owner: "" }] };
+        }
         this._queue = MemoryManager_1.MemoryManager.memory.spawner.Queue;
     }
     QueueSpawn(modules, name, owner) {
