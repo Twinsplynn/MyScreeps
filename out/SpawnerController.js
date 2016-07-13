@@ -38,7 +38,7 @@ class SpawnController {
             var info = this._queue.shift();
             if (this._spawn.canCreateCreep(info.Modules, info.Name) == OK) {
                 this._spawn.createCreep(info.Modules, info.Name);
-                MemoryManager_1.MemoryManager.memory.workers[info.Name] = { Modules: info.Modules, Name: info.Name, Spawning: true, Role: "Miner", Job: {} };
+                MemoryManager_1.MemoryManager.memory.workers[info.Name] = { Modules: info.Modules, Name: info.Name, Spawning: true, Role: info.Role, Job: {} };
             }
             else {
                 this._queue.unshift(info);

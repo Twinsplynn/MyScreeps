@@ -67,7 +67,7 @@ export class SpawnController
             {
                 this._spawn.createCreep(info.Modules, info.Name);
                 // Create memory for workers
-                MemoryManager.memory.workers[info.Name] = {Modules: info.Modules, Name: info.Name, Spawning : true, Role: "Miner", Job: {}};
+                MemoryManager.memory.workers[info.Name] = {Modules: info.Modules, Name: info.Name, Spawning : true, Role: info.Role, Job: {}};
             }
             else
             {
