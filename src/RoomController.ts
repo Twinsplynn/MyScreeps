@@ -37,4 +37,8 @@ export class RoomController
     {
         return __.filter<Creep>(__.values<Creep>(Game.creeps), creep => {return creep.room == this._room});
     }
+
+    public get Name() : string{
+        return this._room.name;
+    }
 }

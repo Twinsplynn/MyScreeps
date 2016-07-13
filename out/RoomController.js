@@ -22,5 +22,8 @@ class RoomController {
     get Creepers() {
         return __.filter(__.values(Game.creeps), creep => { return creep.room == this._room; });
     }
+    get Name() {
+        return this._room.name;
+    }
 }
 exports.RoomController = RoomController;

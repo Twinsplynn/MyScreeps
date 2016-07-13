@@ -129,4 +129,20 @@ export class Transporter extends CreepWorker
     }
 }
 
+export class Upgrader extends CreepWorker
+{
+    public Upgrade()
+    {
+        if (!this.Memory.Job["AtLocation"])
+        {
+            this.Memory.Job["AtLocation"] = (this._creep.moveTo(this._creep.room.controller.pos) == OK);
+        }
+
+        if (this._creep.carry.energy > 0 && this.Memory.Job["AtLocation"])
+        {
+            this._creep.upgradeController(this._creep.room.controller);
+        }
+    }
+}
+
 

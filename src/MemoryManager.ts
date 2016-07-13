@@ -21,16 +21,24 @@ class GameMemory implements Memory
     workers: {
         [name:string] :MemoryManager.workersType;
     }
-    harvester: {Queue: string[]}
+    harvester: {Queue: string[]};
+
+    builders : {[room:string]: MemoryManager.builders};
 }
 
 export namespace MemoryManager {
 
   export let memory : GameMemory;
+  
   export type workersType = {Modules:Array<string>, Name:string, Spawning: boolean, Role: string, Job: {[key : string]: any}};
+  export type builders = {Builders: string[]};
 
   export function loadMemory(): void {
     this.memory = Memory;
+    if (this.memory.builders == undefined)
+    {
+        this.memory.builders = {};
+    }
   }
 
 }

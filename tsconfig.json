@@ -15,6 +15,7 @@
         "./src/SpawnerController.ts",
         "./src/MemoryManager.ts",
         "./src/Worker.ts",
+        "./src/BuilderController.ts",
         "./src/HarvesterController.ts",
         "./node_modules/screeps-typescript-declarations/dist/screeps.d.ts",
         "./typings/modules/lodash/index.d.ts"
