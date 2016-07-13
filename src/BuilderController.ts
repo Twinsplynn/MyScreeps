@@ -39,7 +39,7 @@ export class BuilderController
 
     private firstLevel()
     {
-        if (this._workers.length == 0)
+        if (this._memory.Builders.length == 0)
         {
             var name = this._room.Spawn.RequestWorker([WORK,CARRY,CARRY,MOVE], this._name, "Upgrader");
             this._memory.Builders.push(name);

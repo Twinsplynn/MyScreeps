@@ -15,6 +15,15 @@ class CreepWorker {
     get Memory() {
         return this._memory;
     }
+    get Carry() {
+        return this._creep.carry.energy;
+    }
+    get Capacity() {
+        return this._creep.carryCapacity;
+    }
+    get Creep() {
+        return this._creep;
+    }
     static CreateWorker(name, creep) {
         if (MemoryManager_1.MemoryManager.memory.workers[name] == undefined) {
             return undefined;
@@ -50,6 +59,9 @@ class Miner extends CreepWorker {
 }
 exports.Miner = Miner;
 class Transporter extends CreepWorker {
+    Init(room) {
+        this._room = room;
+    }
     FindEnergy() {
         let cr = this._creep;
         if (cr.carry.energy == cr.carryCapacity && this.Memory.Job["Mining"]) {
@@ -84,12 +96,25 @@ class Transporter extends CreepWorker {
                     cr.moveTo(targets[0]);
                 }
             }
+            else {
+                for (let worker in this._room.Spawn.Workers) {
+                    if (this._room.Spawn.Workers[worker] instanceof Upgrader &&
+                        this._room.Spawn.Workers[worker].Carry < this._room.Spawn.Workers[worker].Capacity) {
+                        if (this._creep.transfer(this._room.Spawn.Workers[worker].Creep, RESOURCE_ENERGY) != OK) {
+                            this._creep.moveTo(this._room.Spawn.Workers[worker].Creep.pos);
+                        }
+                    }
+                }
+            }
         }
     }
 }
 exports.Transporter = Transporter;
 class Upgrader extends CreepWorker {
     Upgrade() {
+        if (this._creep.ticksToLive == 1500) {
+            this.Memory.Job["AtLocation"] = false;
+        }
         if (!this.Memory.Job["AtLocation"]) {
             this._creep.moveTo(this._creep.room.controller.pos);
             this.Memory.Job["AtLocation"] = this._creep.pos.getRangeTo(this._creep.room.controller.pos) == 1;

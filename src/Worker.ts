@@ -1,5 +1,6 @@
 import * as __ from "lodash";
 import {MemoryManager} from "./MemoryManager";
+import { RoomController } from './RoomController';
 
 
 export class CreepWorker
@@ -15,6 +16,16 @@ export class CreepWorker
         return this._memory;
     }
 
+    public get Carry():number{
+        return this._creep.carry.energy;
+    }
+    public get Capacity():number{
+        return this._creep.carryCapacity;
+    }
+
+    public get Creep():Creep{
+        return this._creep;
+    }
 
     constructor(creep: Creep)
     {
@@ -76,6 +87,13 @@ export class Miner extends CreepWorker
 
 export class Transporter extends CreepWorker
 {
+    private _room : RoomController;
+
+    public Init(room:RoomController)
+    {
+        this._room = room;
+    }
+
     public FindEnergy()
     {
         let cr = this._creep;
@@ -113,10 +131,25 @@ export class Transporter extends CreepWorker
                 });
             if(targets.length > 0) {
                 if(cr.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                cr.moveTo(targets[0]);
+                    cr.moveTo(targets[0]);
+                    
                 }   
                 
             }
+            else{
+                for (let worker in this._room.Spawn.Workers)
+                {
+                    if (this._room.Spawn.Workers[worker] instanceof Upgrader &&
+                        this._room.Spawn.Workers[worker].Carry < this._room.Spawn.Workers[worker].Capacity)
+                    {
+                        if (this._creep.transfer(this._room.Spawn.Workers[worker].Creep, RESOURCE_ENERGY) != OK)
+                        {
+                            this._creep.moveTo(this._room.Spawn.Workers[worker].Creep.pos);
+                        }
+                    }
+                }
+            }
+            
             // look for batteries
             /*that.GetBatteries().array.forEach(function(battery) {
                 if (battery.Creep.carry.energy < battery.Creep.carryCapacity)
@@ -135,7 +168,11 @@ export class Upgrader extends CreepWorker
 {
     public Upgrade()
     {
-        
+        if (this._creep.ticksToLive == 1500)
+        {
+            this.Memory.Job["AtLocation"] = false;
+        }
+
         if (!this.Memory.Job["AtLocation"])
         {
             this._creep.moveTo(this._creep.room.controller.pos);
