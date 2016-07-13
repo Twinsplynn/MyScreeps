@@ -90,11 +90,9 @@ class Transporter extends CreepWorker {
 exports.Transporter = Transporter;
 class Upgrader extends CreepWorker {
     Upgrade() {
-        let current;
         if (!this.Memory.Job["AtLocation"]) {
-            current = this._creep.pos;
             this._creep.moveTo(this._creep.room.controller.pos);
-            this.Memory.Job["AtLocation"] = this._creep.pos == current;
+            this.Memory.Job["AtLocation"] = this._creep.pos.getRangeTo(this._creep.room.controller.pos) == 1;
         }
         if (this._creep.carry.energy > 0 && this.Memory.Job["AtLocation"]) {
             this._creep.upgradeController(this._creep.room.controller);
