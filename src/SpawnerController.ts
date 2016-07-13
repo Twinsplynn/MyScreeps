@@ -20,6 +20,7 @@ export class SpawnController
         this._spawn = spawn;
         this._workers = {};
         
+        // init memory
         if (MemoryManager.memory.spawner == undefined)
         {
             MemoryManager.memory.spawner = {Queue: new Array<{Modules: Array<string>, Name: string, Owner: string, Role:string}>()}
@@ -28,6 +29,7 @@ export class SpawnController
         {
             MemoryManager.memory.workers = {};
         }
+        this._queue = MemoryManager.memory.spawner.Queue;
 
         for(let name in MemoryManager.memory.workers)
         {
@@ -37,7 +39,7 @@ export class SpawnController
             {
                 this.QueueSpawn(mem.Modules, mem.Name, undefined, mem.Role);
             }
-            if (!creep.spawning)
+            if (creep != undefined && !creep.spawning)
             {
                 // create worker 
                 this._workers[creep.name] = CreepWorker.CreateWorker(creep.name, creep);
@@ -45,8 +47,6 @@ export class SpawnController
 
         }
 
-        // init memory
-        this._queue = MemoryManager.memory.spawner.Queue;
     }   
 
     private  QueueSpawn (modules: string[], name: string, owner: string, role: string) :string

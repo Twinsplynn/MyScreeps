@@ -12,17 +12,17 @@ class SpawnController {
         if (MemoryManager_1.MemoryManager.memory.workers == undefined) {
             MemoryManager_1.MemoryManager.memory.workers = {};
         }
+        this._queue = MemoryManager_1.MemoryManager.memory.spawner.Queue;
         for (let name in MemoryManager_1.MemoryManager.memory.workers) {
             let creep = Game.creeps[name];
             let mem = MemoryManager_1.MemoryManager.memory.workers[name];
             if (creep == undefined) {
                 this.QueueSpawn(mem.Modules, mem.Name, undefined, mem.Role);
             }
-            if (!creep.spawning) {
+            if (creep != undefined && !creep.spawning) {
                 this._workers[creep.name] = Worker_1.CreepWorker.CreateWorker(creep.name, creep);
             }
         }
-        this._queue = MemoryManager_1.MemoryManager.memory.spawner.Queue;
     }
     get Workers() {
         return this._workers;
