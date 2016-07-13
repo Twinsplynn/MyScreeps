@@ -19,7 +19,7 @@ class BuilderController {
     }
     firstLevel() {
         if (this._workers.length == 0) {
-            var name = this._room.Spawn.RequestWorker([WORK, CARRY, CARRY, MOVE], "harvester", "Upgrader");
+            var name = this._room.Spawn.RequestWorker([WORK, CARRY, CARRY, MOVE], this._name, "Upgrader");
             this._memory.Builders.push(name);
         }
         for (let worker of this._workers) {

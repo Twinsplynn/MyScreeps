@@ -40,7 +40,7 @@ export class BuilderController
     {
         if (this._workers.length == 0)
         {
-            var name = this._room.Spawn.RequestWorker([WORK,CARRY,CARRY,MOVE], "harvester", "Upgrader");
+            var name = this._room.Spawn.RequestWorker([WORK,CARRY,CARRY,MOVE], this._name, "Upgrader");
             this._memory.Builders.push(name);
         }
 
