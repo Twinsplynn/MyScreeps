@@ -20,7 +20,7 @@ class SpawnController {
                 this.QueueSpawn(mem.Modules, mem.Name, undefined, mem.Role);
             }
             if (creep != undefined && !creep.spawning) {
-                this._workers[creep.name] = Worker_1.CreepWorker.CreateWorker(creep.name, creep);
+                this._workers[creep.name] = Worker_1.CreepWorker.CreateWorker(creep.name, creep, this._roomController);
             }
         }
     }

@@ -41,7 +41,7 @@ export class CreepWorker
 
     }
 
-    static CreateWorker(name: string, creep:Creep) : CreepWorker{
+    static CreateWorker(name: string, creep:Creep, room : RoomController) : CreepWorker{
         if (MemoryManager.memory.workers[name] == undefined)
         {
             return undefined;
@@ -52,7 +52,9 @@ export class CreepWorker
             case "Miner":
                 return new Miner(creep);
             case "Transporter":
-                return new Transporter(creep);
+                let work = new Transporter(creep);
+                work.Init(room);
+                return work;
             case "Upgrader":
                 return new Upgrader(creep);
         }

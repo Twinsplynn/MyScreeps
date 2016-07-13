@@ -42,7 +42,7 @@ export class SpawnController
             if (creep != undefined && !creep.spawning)
             {
                 // create worker 
-                this._workers[creep.name] = CreepWorker.CreateWorker(creep.name, creep);
+                this._workers[creep.name] = CreepWorker.CreateWorker(creep.name, creep, this._roomController);
             }
 
         }

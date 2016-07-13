@@ -24,7 +24,7 @@ class CreepWorker {
     get Creep() {
         return this._creep;
     }
-    static CreateWorker(name, creep) {
+    static CreateWorker(name, creep, room) {
         if (MemoryManager_1.MemoryManager.memory.workers[name] == undefined) {
             return undefined;
         }
@@ -32,7 +32,9 @@ class CreepWorker {
             case "Miner":
                 return new Miner(creep);
             case "Transporter":
-                return new Transporter(creep);
+                let work = new Transporter(creep);
+                work.Init(room);
+                return work;
             case "Upgrader":
                 return new Upgrader(creep);
         }
