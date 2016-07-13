@@ -42,6 +42,8 @@ export class CreepWorker
                 return new Miner(creep);
             case "Transporter":
                 return new Transporter(creep);
+            case "Upgrader":
+                return new Upgrader(creep);
         }
     }
 
