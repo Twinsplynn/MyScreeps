@@ -19,8 +19,11 @@ class CreepWorker {
         if (MemoryManager_1.MemoryManager.memory.workers[name] == undefined) {
             return undefined;
         }
-        if (MemoryManager_1.MemoryManager.memory.workers[name].Role == "Miner") {
-            return new Miner(creep);
+        switch (MemoryManager_1.MemoryManager.memory.workers[name].Role) {
+            case "Miner":
+                return new Miner(creep);
+            case "Transporter":
+                return new Transporter(creep);
         }
     }
     FindClosestByRange(type) {
@@ -44,3 +47,42 @@ class Miner extends CreepWorker {
     }
 }
 exports.Miner = Miner;
+class Transporter extends CreepWorker {
+    FindEnergy() {
+        let cr = this._creep;
+        if (cr.carry.energy == cr.carryCapacity && this.Memory.Job["Mining"]) {
+            this.Memory.Job["Mining"] = false;
+            return;
+        }
+        if (cr.carry.energy < cr.carryCapacity && this.Memory.Job["Mining"]) {
+            var sources = cr.pos.findClosestByRange(FIND_DROPPED_ENERGY);
+            if (sources) {
+                if (cr.pickup(sources) == ERR_NOT_IN_RANGE) {
+                    cr.moveTo(sources);
+                }
+            }
+        }
+    }
+    Transport() {
+        let cr = this._creep;
+        if (cr.carry.energy == 0 && !this.Memory.Job["Mining"]) {
+            this.Memory.Job["Mining"] = true;
+            return;
+        }
+        if (!this.Memory.Job["Mining"]) {
+            var targets = cr.room.find(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return (structure.structureType == STRUCTURE_EXTENSION ||
+                        structure.structureType == STRUCTURE_SPAWN ||
+                        structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
+                }
+            });
+            if (targets.length > 0) {
+                if (cr.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    cr.moveTo(targets[0]);
+                }
+            }
+        }
+    }
+}
+exports.Transporter = Transporter;

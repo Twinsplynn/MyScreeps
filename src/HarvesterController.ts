@@ -8,6 +8,7 @@ export class HarvesterController
     private _room : RoomController;
     private _queue : string[];
 
+    
 
     constructor(room :RoomController)
     {
@@ -29,12 +30,19 @@ export class HarvesterController
         }
 
     }
-    public Execute()
-    {
+
+    private LevelOne = function(){
         if (this._workers.length == 0)
         {
             // Create a Miner
             var name = this._room.Spawn.RequestWorker([WORK,WORK,MOVE], "harvester", "Miner");
+            this._queue.push(name);
+        }
+
+        if (this._workers.length == 1)
+        {
+            // Create a Miner
+            var name = this._room.Spawn.RequestWorker([CARRY, CARRY, MOVE, MOVE], "harvester", "Transporter");
             this._queue.push(name);
         }
 
@@ -44,6 +52,19 @@ export class HarvesterController
             {
                 (<Miner> worker).GoMine();
             }
+        }
+
+    }
+    
+    public Execute()
+    {
+        switch (this._room.Level) {
+            case 1:
+                this.LevelOne();
+                break;
+        
+            default:
+                break;
         }
     }
 }

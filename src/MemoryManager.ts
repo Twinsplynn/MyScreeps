@@ -27,7 +27,7 @@ class GameMemory implements Memory
 export namespace MemoryManager {
 
   export let memory : GameMemory;
-  export type workersType = {Modules:Array<string>, Name:string, Spawning: boolean, Role: string};
+  export type workersType = {Modules:Array<string>, Name:string, Spawning: boolean, Role: string, Job: {[key : string]: any}};
 
   export function loadMemory(): void {
     this.memory = Memory;
