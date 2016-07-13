@@ -133,11 +133,15 @@ export class Upgrader extends CreepWorker
 {
     public Upgrade()
     {
+        let current : RoomPosition;
         if (!this.Memory.Job["AtLocation"])
         {
-            this.Memory.Job["AtLocation"] = (this._creep.moveTo(this._creep.room.controller.pos) == OK);
+            current = this._creep.pos;
+            this._creep.moveTo(this._creep.room.controller.pos);
         }
 
+        this.Memory.Job["AtLocation"] = this._creep.pos == current;
+        
         if (this._creep.carry.energy > 0 && this.Memory.Job["AtLocation"])
         {
             this._creep.upgradeController(this._creep.room.controller);
