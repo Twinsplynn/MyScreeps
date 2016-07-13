@@ -29,20 +29,27 @@ export class SpawnController
             MemoryManager.memory.workers = {};
         }
 
-        // load up workers
-        this._roomController.Creepers.forEach(creep => {
+        for(let name in MemoryManager.memory.workers)
+        {
+            let creep = Game.creeps[name];
+            let mem = MemoryManager.memory.workers[name];
+            if (creep == undefined)
+            {
+                this.QueueSpawn(mem.Modules, mem.Name, undefined, mem.Role);
+            }
             if (!creep.spawning)
             {
                 // create worker 
                 this._workers[creep.name] = CreepWorker.CreateWorker(creep.name, creep);
             }
-        });
-    
+
+        }
+
         // init memory
         this._queue = MemoryManager.memory.spawner.Queue;
     }   
 
-    private  QueueSpawn (modules: [string], name: string, owner: string, role: string) :string
+    private  QueueSpawn (modules: string[], name: string, owner: string, role: string) :string
     {
 		if (name == undefined)
 		{

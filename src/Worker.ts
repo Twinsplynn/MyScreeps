@@ -140,9 +140,9 @@ export class Upgrader extends CreepWorker
         {
             current = this._creep.pos;
             this._creep.moveTo(this._creep.room.controller.pos);
+            this.Memory.Job["AtLocation"] = this._creep.pos == current;
         }
 
-        this.Memory.Job["AtLocation"] = this._creep.pos == current;
         
         if (this._creep.carry.energy > 0 && this.Memory.Job["AtLocation"])
         {
