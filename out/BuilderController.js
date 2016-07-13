@@ -4,6 +4,7 @@ const MemoryManager_1 = require("./MemoryManager");
 class BuilderController {
     constructor(room) {
         this._room = room;
+        this._workers = new Array();
         if (MemoryManager_1.MemoryManager.memory.builders[room.Name] == undefined) {
             MemoryManager_1.MemoryManager.memory.builders[room.Name] = { Builders: new Array() };
         }

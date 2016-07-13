@@ -9,12 +9,13 @@ export class BuilderController
     private _room : RoomController;
     private _memory : MemoryManager.builders;
     private _name : string;
-    private _workers : CreepWorker[];
+    private _workers : Array<CreepWorker>;
 
     constructor(room : RoomController)
     {
         this._room = room;
-
+        this._workers = new Array<CreepWorker>();
+        
         if (MemoryManager.memory.builders[room.Name] == undefined)
         {
             MemoryManager.memory.builders[room.Name] = {Builders : new Array<string>()};
