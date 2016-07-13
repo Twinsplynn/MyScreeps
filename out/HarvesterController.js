@@ -16,6 +16,10 @@ class HarvesterController {
                 if (worker instanceof Worker_1.Miner) {
                     worker.GoMine();
                 }
+                else if (worker instanceof Worker_1.Transporter) {
+                    worker.FindEnergy();
+                    worker.Transport();
+                }
             }
         };
         this._room = room;

@@ -1,4 +1,4 @@
-import {Miner, CreepWorker} from "./Worker"
+import {Miner, CreepWorker, Transporter} from "./Worker"
 import {MemoryManager} from "./MemoryManager"
 import { RoomController } from './RoomController';
 
@@ -51,6 +51,11 @@ export class HarvesterController
             if (worker instanceof Miner)
             {
                 (<Miner> worker).GoMine();
+            }
+            else if (worker instanceof Transporter)
+            {
+                (<Transporter> worker).FindEnergy();
+                (<Transporter> worker).Transport();
             }
         }
 
